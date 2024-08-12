@@ -7,7 +7,7 @@ Make Material CheckBox Circle
 ### Install Package
 ``` dart
 dependencies:
-  circle_checkbox: ^0.0.2+1
+  circle_check: ^0.0.1+2
 ```
 
 ### Example Code
@@ -134,8 +134,8 @@ CircleCheckboxListTile(
 ```
 
 ### Example
-<center>
+<div style="text-align: center;">
 <a href="https://github.com/redevRx/CircleCheckBox">
- <img src="https://github.com/redevRx/CircleCheckBox/blob/main/Screenshot_1622192408.png?raw=true width="200"/>
+ <img src="Screenshot_1622192408.png?raw=true width="200"/>
 </a>
-</center>
+</div>
