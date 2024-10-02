@@ -34,9 +34,9 @@ import 'package:flutter/widgets.dart';
 /// Widget build(BuildContext context) {
 ///   Color getColor(Set<MaterialState> states) {
 ///     const Set<MaterialState> interactiveStates = <MaterialState>{
-///       MaterialState.pressed,
-///       MaterialState.hovered,
-///       MaterialState.focused,
+///       WidgetState.pressed,
+///       WidgetState.hovered,
+///       WidgetState.focused,
 ///     };
 ///     if (states.any(interactiveStates.contains)) {
 ///       return Colors.blue;
@@ -146,24 +146,24 @@ class CircleCheckbox extends StatefulWidget {
   /// widget.
   ///
   /// If [mouseCursor] is a [MaterialStateProperty<MouseCursor>],
-  /// [MaterialStateProperty.resolve] is used for the following [MaterialState]s:
+  /// [WidgetStateProperty.resolve] is used for the following [WidgetState]s:
   ///
-  ///  * [MaterialState.selected].
-  ///  * [MaterialState.hovered].
-  ///  * [MaterialState.focused].
-  ///  * [MaterialState.disabled].
+  ///  * [WidgetState.selected].
+  ///  * [WidgetState.hovered].
+  ///  * [WidgetState.focused].
+  ///  * [WidgetState.disabled].
   /// {@endtemplate}
   ///
-  /// When [value] is null and [tristate] is true, [MaterialState.selected] is
+  /// When [value] is null and [tristate] is true, [WidgetState.selected] is
   /// included as a state.
   ///
   /// If null, then the value of [CheckboxThemeData.mouseCursor] is used. If
-  /// that is also null, then [MaterialStateMouseCursor.clickable] is used.
+  /// that is also null, then [WidgetStateMouseCursor.clickable] is used.
   ///
   /// See also:
   ///
-  ///  * [MaterialStateMouseCursor], a [MouseCursor] that implements
-  ///    `MaterialStateProperty` which is used in APIs that need to accept
+  ///  * [WidgetStateMouseCursor], a [MouseCursor] that implements
+  ///    `WidgetStateProperty` which is used in APIs that need to accept
   ///    either a [MouseCursor] or a [MaterialStateProperty<MouseCursor>].
   final MouseCursor? mouseCursor;
 
@@ -171,18 +171,18 @@ class CircleCheckbox extends StatefulWidget {
   ///
   /// Defaults to [ThemeData.toggleableActiveColor].
   ///
-  /// If [fillColor] returns a non-null color in the [MaterialState.selected]
+  /// If [fillColor] returns a non-null color in the [WidgetState.selected]
   /// state, it will be used instead of this color.
   final Color? activeColor;
 
   /// {@template flutter.material.checkbox.fillColor}
-  /// The color that fills the checkbox, in all [MaterialState]s.
+  /// The color that fills the checkbox, in all [WidgetState]s.
   ///
   /// Resolves in the following states:
-  ///  * [MaterialState.selected].
-  ///  * [MaterialState.hovered].
-  ///  * [MaterialState.focused].
-  ///  * [MaterialState.disabled].
+  ///  * [WidgetState.selected].
+  ///  * [WidgetState.hovered].
+  ///  * [WidgetState.focused].
+  ///  * [WidgetState.disabled].
   /// {@endtemplate}
   ///
   /// If null, then the value of [activeColor] is used in the selected
@@ -243,7 +243,7 @@ class CircleCheckbox extends StatefulWidget {
 
   /// The color for the checkbox's [Material] when it has the input focus.
   ///
-  /// If [overlayColor] returns a non-null color in the [MaterialState.focused]
+  /// If [overlayColor] returns a non-null color in the [WidgetState.focused]
   /// state, it will be used instead.
   ///
   /// If null, then the value of [CheckboxThemeData.overlayColor] is used in the
@@ -253,7 +253,7 @@ class CircleCheckbox extends StatefulWidget {
 
   /// The color for the checkbox's [Material] when a pointer is hovering over it.
   ///
-  /// If [overlayColor] returns a non-null color in the [MaterialState.hovered]
+  /// If [overlayColor] returns a non-null color in the [WidgetState.hovered]
   /// state, it will be used instead.
   ///
   /// If null, then the value of [CheckboxThemeData.overlayColor] is used in the
@@ -265,10 +265,10 @@ class CircleCheckbox extends StatefulWidget {
   /// The color for the checkbox's [Material].
   ///
   /// Resolves in the following states:
-  ///  * [MaterialState.pressed].
-  ///  * [MaterialState.selected].
-  ///  * [MaterialState.hovered].
-  ///  * [MaterialState.focused].
+  ///  * [WidgetState.pressed].
+  ///  * [WidgetState.selected].
+  ///  * [WidgetState.hovered].
+  ///  * [WidgetState.focused].
   /// {@endtemplate}
   ///
   /// If null, then the value of [activeColor] with alpha
@@ -278,7 +278,7 @@ class CircleCheckbox extends StatefulWidget {
   /// also null, then the value of [ThemeData.toggleableActiveColor] with alpha
   /// [kRadialReactionAlpha], [ThemeData.focusColor] and [ThemeData.hoverColor]
   /// is used in the pressed, focused and hovered state.
-  final MaterialStateProperty<Color?>? overlayColor;
+  final WidgetStateProperty<Color?>? overlayColor;
 
   /// {@template flutter.material.checkbox.splashRadius}
   /// The splash radius of the circular [Material] ink response.
@@ -353,26 +353,27 @@ class _CircleCheckboxState extends State<CircleCheckbox>
   @override
   bool? get value => widget.value;
 
-  MaterialStateProperty<Color?> get _widgetFillColor {
-    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+  WidgetStateProperty<Color?> get _widgetFillColor {
+    return WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.disabled)) {
         return null;
       }
-      if (states.contains(MaterialState.selected)) {
+      if (states.contains(WidgetState.selected)) {
         return widget.activeColor;
       }
       return null;
     });
   }
 
-  MaterialStateProperty<Color> get _defaultFillColor {
+  WidgetStateProperty<Color> get _defaultFillColor {
     final ThemeData themeData = Theme.of(context);
-    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+    return WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.disabled)) {
         return themeData.disabledColor;
       }
-      if (states.contains(MaterialState.selected)) {
-        return themeData.toggleableActiveColor;
+      if (states.contains(WidgetState.selected)) {
+        return themeData.checkboxTheme.fillColor?.resolve(states) ??
+            themeData.unselectedWidgetColor;
       }
       return themeData.unselectedWidgetColor;
     });
@@ -401,20 +402,19 @@ class _CircleCheckboxState extends State<CircleCheckbox>
     }
     size += effectiveVisualDensity.baseSizeAdjustment;
 
-    final MaterialStateProperty<MouseCursor> effectiveMouseCursor =
-        MaterialStateProperty.resolveWith<MouseCursor>(
-            (Set<MaterialState> states) {
-      return MaterialStateProperty.resolveAs<MouseCursor?>(
+    final WidgetStateProperty<MouseCursor> effectiveMouseCursor =
+        WidgetStateProperty.resolveWith<MouseCursor>((Set<WidgetState> states) {
+      return WidgetStateProperty.resolveAs<MouseCursor?>(
               widget.mouseCursor, states) ??
           themeData.checkboxTheme.mouseCursor?.resolve(states) ??
-          MaterialStateMouseCursor.clickable.resolve(states);
+          WidgetStateMouseCursor.clickable.resolve(states);
     });
 
     // Colors need to be resolved in selected and non selected states separately
     // so that they can be lerped between.
-    final Set<MaterialState> activeStates = states..add(MaterialState.selected);
-    final Set<MaterialState> inactiveStates = states
-      ..remove(MaterialState.selected);
+    final Set<WidgetState> activeStates = states..add(WidgetState.selected);
+    final Set<WidgetState> inactiveStates = states
+      ..remove(WidgetState.selected);
     final Color effectiveActiveColor =
         widget.fillColor?.resolve(activeStates) ??
             _widgetFillColor.resolve(activeStates) ??
@@ -426,29 +426,29 @@ class _CircleCheckboxState extends State<CircleCheckbox>
             themeData.checkboxTheme.fillColor?.resolve(inactiveStates) ??
             _defaultFillColor.resolve(inactiveStates);
 
-    final Set<MaterialState> focusedStates = states..add(MaterialState.focused);
+    final Set<WidgetState> focusedStates = states..add(WidgetState.focused);
     final Color effectiveFocusOverlayColor =
         widget.overlayColor?.resolve(focusedStates) ??
             widget.focusColor ??
             themeData.checkboxTheme.overlayColor?.resolve(focusedStates) ??
             themeData.focusColor;
 
-    final Set<MaterialState> hoveredStates = states..add(MaterialState.hovered);
+    final Set<WidgetState> hoveredStates = states..add(WidgetState.hovered);
     final Color effectiveHoverOverlayColor =
         widget.overlayColor?.resolve(hoveredStates) ??
             widget.hoverColor ??
             themeData.checkboxTheme.overlayColor?.resolve(hoveredStates) ??
             themeData.hoverColor;
 
-    final Set<MaterialState> activePressedStates = activeStates
-      ..add(MaterialState.pressed);
+    final Set<WidgetState> activePressedStates = activeStates
+      ..add(WidgetState.pressed);
     final Color effectiveActivePressedOverlayColor = widget.overlayColor
             ?.resolve(activePressedStates) ??
         themeData.checkboxTheme.overlayColor?.resolve(activePressedStates) ??
         effectiveActiveColor.withAlpha(kRadialReactionAlpha);
 
-    final Set<MaterialState> inactivePressedStates = inactiveStates
-      ..add(MaterialState.pressed);
+    final Set<WidgetState> inactivePressedStates = inactiveStates
+      ..add(WidgetState.pressed);
     final Color effectiveInactivePressedOverlayColor = widget.overlayColor
             ?.resolve(inactivePressedStates) ??
         themeData.checkboxTheme.overlayColor?.resolve(inactivePressedStates) ??
@@ -478,8 +478,8 @@ class _CircleCheckboxState extends State<CircleCheckbox>
               themeData.checkboxTheme.splashRadius ??
               kRadialReactionRadius
           ..downPosition = downPosition
-          ..isFocused = states.contains(MaterialState.focused)
-          ..isHovered = states.contains(MaterialState.hovered)
+          ..isFocused = states.contains(WidgetState.focused)
+          ..isHovered = states.contains(WidgetState.hovered)
           ..activeColor = effectiveActiveColor
           ..inactiveColor = effectiveInactiveColor
           ..checkColor = effectiveCheckColor
